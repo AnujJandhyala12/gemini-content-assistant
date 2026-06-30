@@ -108,15 +108,12 @@ Create a `.dockerignore` to keep the image lean and avoid baking in secrets:
 ```
 .env
 __pycache__/
-*.pyc
-.git
-.venv
 ```
 
 ### 4.4 Build the image
 
 ```bash
-docker build -t gemini-multitool .
+docker build -t gemini-debugger-app .
 ```
 
 ### 4.5 Run the container
@@ -124,40 +121,12 @@ docker build -t gemini-multitool .
 Pass your API key as an environment variable at runtime rather than baking it into the image:
 
 ```bash
-docker run -d \
-  --name gemini-multitool \
-  -p 8501:8501 \
-  -e GEMINI_API_KEY=your_api_key_here \
-  gemini-multitool
+docker run -p 8501:8501 --env-file .env gemini-debugger-app
 ```
 
 Then open `http://localhost:8501` in your browser.
 
-### 4.6 Using docker-compose (optional)
 
-`docker-compose.yml`:
-
-```yaml
-version: "3.8"
-services:
-  gemini-multitool:
-    build: .
-    ports:
-      - "8501:8501"
-    env_file:
-      - .env
-    restart: unless-stopped
-```
-
-Run with:
-
-```bash
-docker-compose up -d --build
-```
-
-This keeps your `.env` file out of the image while still supplying it to the container at runtime.
-
----
 
 ## 5. App Overview
 
@@ -175,4 +144,4 @@ All three features use the `google-genai` SDK's `client.models.generate_content(
 
 - **`ValueError` / authentication errors**: confirm `GEMINI_API_KEY` is set and valid, and that `.env` is in the same directory you're running the app from (or passed correctly into the container).
 - **Blank responses**: check your API quota/usage in Google AI Studio; you may have hit a rate limit.
-- **Docker container exits immediately**: run `docker logs gemini-multitool` to see the Streamlit error output.
+- **Docker container exits immediately**: run `docker logs gemini-debugger-app` to see the Streamlit error output.
