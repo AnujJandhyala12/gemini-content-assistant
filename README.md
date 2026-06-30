@@ -26,6 +26,6 @@ If you wish to run the backend engine or web application directly on your machin
 ### 1. Clone the Repository
 ```bash
 git clone [https://github.com/your-username/gemini-content-assistant.git](https://github.com/your-username/gemini-content-assistant.git)
-cd gemini-code-debugger
+cd gemini-content-assistant
 
 
